@@ -51,7 +51,7 @@ const addKhata = async (req, res) => {
   console.log(req.body);
 
   try {
-    const { clientId, type, detail, weight, price, vehicleNo, gas11_8Kg, gas15Kg, gas45_4Kg, gasRate, totalPayment, received, remainingTotal } = req.body;
+    const { clientId, type, detail, weight, price, vehicleNo, gas11_8Kg, gas15Kg, gas45_4Kg, gasRate, totalPayment, received, remainingTotal, date } = req.body;
 
     // Standardize the type field
     const allowedTypes = { rubber: 'Rubber', gas: 'Gas', carbon: 'Carbon', taar: 'Taar' };
@@ -89,6 +89,7 @@ const addKhata = async (req, res) => {
       received,
       remainingTotal,
       fullTotal, // Add fullTotal in the new record
+      date
     });
 
     res.status(201).json(khata);
