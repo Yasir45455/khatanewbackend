@@ -22,7 +22,9 @@ const khataSchema = new mongoose.Schema(
     received: { type: Number },
     remainingTotal: { type: Number },
     
-    fullTotal: { type: Number }
+    fullTotal: { type: Number },
+
+    date: { type: String }
   },
   { timestamps: true }
 );
