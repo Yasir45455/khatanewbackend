@@ -66,7 +66,7 @@ const addKhata = async (req, res) => {
     console.log("Previous Khata:", previousKhata);
 
     // Calculate fullTotal
-    let fullTotal = remainingTotal;
+    let fullTotal = totalPayment;
     if (previousKhata) {
       fullTotal += previousKhata.fullTotal - received;
     }
