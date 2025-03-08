@@ -3,6 +3,8 @@ const mongoose = require("mongoose");
 const clientSchema = new mongoose.Schema(
   {
     name: { type: String, required: true, trim: true },
+        khatatype: { type: String, required: true, trim: true }
+
   },
   { timestamps: true } 
 );
