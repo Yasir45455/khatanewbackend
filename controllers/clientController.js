@@ -3,8 +3,8 @@ const clientService = require("../services/clientService");
 // Create Client
 const createClient = async (req, res) => {
   try {
-    const { name } = req.body;
-    const client = await clientService.createClient(name);
+    const { name, khatatype } = req.body;
+    const client = await clientService.createClient(name, khatatype);
     res.status(201).json(client);
   } catch (error) {
     res.status(500).json({ message: "Error creating client", error });
