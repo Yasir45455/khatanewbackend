@@ -1,8 +1,8 @@
 const Client = require("../models/Client");
 
 // Create Client
-const createClient = async (name) => {
-  const client = new Client({ name });
+const createClient = async (name, khatatype) => {
+  const client = new Client({ name, khatatype });
   return await client.save();
 };
 
