@@ -114,15 +114,48 @@ const getKhataByUserId = async (req, res) => {
 };
 
 // Delete Khata by ID
+// const deleteKhata = async (req, res) => {
+//   try {
+//     const khata = await khataService.deleteKhata(req.params.id);
+//     if (!khata) return res.status(404).json({ message: "Khata entry not found" });
+//     res.status(200).json({ message: "Khata entry deleted" });
+//   } catch (error) {
+//     res.status(500).json({ message: "Error deleting Khata entry", error });
+//   }
+// };
+
 const deleteKhata = async (req, res) => {
   try {
-    const khata = await khataService.deleteKhata(req.params.id);
-    if (!khata) return res.status(404).json({ message: "Khata entry not found" });
-    res.status(200).json({ message: "Khata entry deleted" });
+    // Pehle delete hone wala Khata dhoondo
+    const khataToDelete = await khataService.getKhataById(req.params.id);
+    if (!khataToDelete) {
+      return res.status(404).json({ message: "Khata entry not found" });
+    }
+
+    const { clientId, type, remainingTotal } = khataToDelete;
+
+    // Delete hone wale Khata ke baad wale saare Khatas laane hain
+    const nextKhatas = await khataService.getNextKhatas(clientId, type, khataToDelete._id);
+
+    // Agr nextKhatas exist nahi karte, to sirf delete kar do
+    if (nextKhatas.length > 0) {
+      // Next khatas ke fullTotal ko update karo
+      for (const khata of nextKhatas) {
+        khata.fullTotal -= remainingTotal;
+        await khata.save(); // Update database
+      }
+    }
+
+    // Ab Khata delete kar do
+    await khataService.deleteKhata(req.params.id);
+
+    res.status(200).json({ message: "Khata entry deleted successfully" });
   } catch (error) {
+    console.error("Error deleting Khata entry:", error);
     res.status(500).json({ message: "Error deleting Khata entry", error });
   }
 };
+
 
 
 const getAllKhatas = async (req, res) => {
