@@ -28,4 +28,18 @@ const getLatestKhata = async (clientId, type) => {
 };
 
 
-module.exports = { addKhata, getKhataByUserId, deleteKhata, getAllKhatas, getLatestKhata };
+// Get a specific Khata by ID
+const getKhataById = async (khataId) => {
+  return await Khata.findById(khataId);
+};
+
+// Get all next Khatas for the same client and type
+const getNextKhatas = async (clientId, type, deletedKhataId) => {
+  return await Khata.find({
+    clientId: clientId,
+    type: type,
+    _id: { $gt: deletedKhataId } // Sirf next wale records laayein
+  }).sort({ _id: 1 }); // Ascending order
+};
+
+module.exports = { addKhata, getKhataByUserId, deleteKhata, getAllKhatas, getLatestKhata , getNextKhatas ,getKhataById  };
